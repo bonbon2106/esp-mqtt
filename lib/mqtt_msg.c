@@ -568,10 +568,8 @@ int mqtt_has_valid_msg_hdr(uint8_t *buffer, size_t length)
     switch (mqtt_get_type(buffer)) {
     case MQTT_MSG_TYPE_CONNECT:
     case MQTT_MSG_TYPE_CONNACK:
-    case MQTT_MSG_TYPE_PUBACK:
     case MQTT_MSG_TYPE_PUBREC:
     case MQTT_MSG_TYPE_PUBCOMP:
-    case MQTT_MSG_TYPE_SUBACK:
     case MQTT_MSG_TYPE_UNSUBACK:
     case MQTT_MSG_TYPE_PINGREQ:
     case MQTT_MSG_TYPE_PINGRESP:
@@ -581,6 +579,9 @@ int mqtt_has_valid_msg_hdr(uint8_t *buffer, size_t length)
     case MQTT_MSG_TYPE_SUBSCRIBE:
     case MQTT_MSG_TYPE_UNSUBSCRIBE:
         return (buffer[0] & 0x0f) == 0x02;  /* only bit 1 is set */
+    case MQTT_MSG_TYPE_SUBACK:
+    case MQTT_MSG_TYPE_PUBACK:
+        return (((buffer[0] & 0x0f) == 0x02)||((buffer[0] & 0x0f) == 0));  /* Break mqtt rules by accepting all flag bits 0 or bit 1 is set for thingsboard*/
     case MQTT_MSG_TYPE_PUBLISH:
         qos = mqtt_get_qos(buffer);
         dup = mqtt_get_dup(buffer);
