@@ -1262,6 +1262,8 @@ static esp_err_t mqtt_process_receive(esp_mqtt_client_handle_t client)
     case MQTT_MSG_TYPE_PINGRESP:
         ESP_LOGD(TAG, "MQTT_MSG_TYPE_PINGRESP");
         client->wait_for_ping_resp = false;
+        client->event.event_id = MQTT_EVENT_PINGRESP;
+        esp_mqtt_dispatch_event_with_msgid(client);
         break;
     }
 

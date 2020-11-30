@@ -60,6 +60,7 @@ typedef enum {
                                         pointer and length, other contain data only with current data length
                                         and current data offset updating.
                                          */
+    MQTT_EVENT_PINGRESP,			/*!< ping response event, for keep alive devices connected zigbee gateway*/
     MQTT_EVENT_BEFORE_CONNECT,     /*!< The event occurs before connecting */
 } esp_mqtt_event_id_t;
 
